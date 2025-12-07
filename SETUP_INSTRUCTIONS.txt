@@ -1,0 +1,172 @@
+================================================================================
+TASK 3: MINI AUTHENTICATION + API KEY SYSTEM - SETUP INSTRUCTIONS
+================================================================================
+
+PROJECT LOCATION:
+C:\Users\ibrah\OneDrive\Desktop\Software Development\HNG\HNG 13\Backend\task3-auth-api-key
+
+================================================================================
+QUICK SETUP (5 MINUTES)
+================================================================================
+
+STEP 1: CREATE DATABASE
+------------------------
+Open Command Prompt or PowerShell and run:
+
+psql -U postgres
+CREATE DATABASE auth_api_key_db;
+\q
+
+(If you get an error, make sure PostgreSQL is installed and running)
+
+STEP 2: INSTALL DEPENDENCIES
+-----------------------------
+cd "C:\Users\ibrah\OneDrive\Desktop\Software Development\HNG\HNG 13\Backend\task3-auth-api-key"
+npm install
+
+STEP 3: CONFIGURE ENVIRONMENT (OPTIONAL)
+-----------------------------------------
+The .env file is already configured with defaults:
+- Port: 3000
+- Database: localhost:5432
+- DB Name: auth_api_key_db
+- DB User: postgres
+- DB Password: password
+
+If your PostgreSQL has different credentials, edit the .env file.
+
+STEP 4: START THE APPLICATION
+------------------------------
+npm run start:dev
+
+You should see:
+🚀 Application is running on: http://localhost:3000
+📚 Swagger documentation: http://localhost:3000/api/docs
+
+================================================================================
+TESTING THE APPLICATION
+================================================================================
+
+OPTION 1: USE SWAGGER UI (EASIEST)
+-----------------------------------
+1. Open browser: http://localhost:3000/api/docs
+2. Click on "POST /auth/signup"
+3. Click "Try it out"
+4. Use this example:
+   {
+     "email": "test@example.com",
+     "password": "Test123!",
+     "name": "Test User"
+   }
+5. Click "Execute"
+6. Copy the "accessToken" from response
+7. Click "Authorize" button at top of page
+8. Paste token and click "Authorize"
+9. Now you can test all endpoints!
+
+OPTION 2: USE CURL
+------------------
+# Signup
+curl -X POST http://localhost:3000/auth/signup -H "Content-Type: application/json" -d "{\"email\":\"test@example.com\",\"password\":\"Test123!\",\"name\":\"Test User\"}"
+
+# Create API Key (replace YOUR_TOKEN with token from signup)
+curl -X POST http://localhost:3000/keys/create -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_TOKEN" -d "{\"name\":\"My API Key\"}"
+
+# Test with API Key (replace YOUR_API_KEY)
+curl -X GET http://localhost:3000/protected/service-only -H "x-api-key: YOUR_API_KEY"
+
+================================================================================
+PROJECT FEATURES
+================================================================================
+
+✅ User Authentication (JWT)
+   - POST /auth/signup - Register user
+   - POST /auth/login - Login user
+   - POST /auth/logout - Logout user
+
+✅ API Key Management
+   - POST /keys/create - Create API key (requires JWT)
+   - GET /keys - List API keys (requires JWT)
+   - DELETE /keys/:id - Revoke API key (requires JWT)
+
+✅ Protected Routes
+   - GET /protected/user-only - JWT only
+   - GET /protected/service-only - API key only
+   - GET /protected/flexible - Both JWT and API key
+
+✅ Security Features
+   - Password hashing with bcrypt
+   - JWT token expiration
+   - API key revocation
+   - Secure key generation
+
+================================================================================
+DOCUMENTATION FILES
+================================================================================
+
+README.md - Complete project documentation
+QUICKSTART.md - Quick start guide
+TESTING.md - Comprehensive testing guide
+API_EXAMPLES.md - All API endpoint examples with curl commands
+PROJECT_SUMMARY.md - Project summary and requirements checklist
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+PROBLEM: Database connection error
+SOLUTION: 
+- Check PostgreSQL is running: pg_ctl status
+- Verify database exists: psql -U postgres -l
+- Check credentials in .env file
+
+PROBLEM: Port 3000 already in use
+SOLUTION: 
+- Change PORT=3001 in .env file
+- Or stop the process using port 3000
+
+PROBLEM: Module not found errors
+SOLUTION:
+- Delete node_modules folder
+- Run: npm install
+
+PROBLEM: TypeScript compilation errors
+SOLUTION:
+- Run: npm run build
+- Check for any error messages
+
+================================================================================
+TECHNOLOGY STACK
+================================================================================
+
+Framework: NestJS 10.3.0
+Language: TypeScript 5.3.3
+Database: PostgreSQL
+ORM: TypeORM 0.3.19
+Authentication: Passport + JWT
+Documentation: Swagger/OpenAPI
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+1. Start the application: npm run start:dev
+2. Open Swagger UI: http://localhost:3000/api/docs
+3. Test signup endpoint
+4. Create an API key
+5. Test protected routes
+6. Read README.md for detailed documentation
+
+================================================================================
+SUPPORT
+================================================================================
+
+For detailed information, refer to:
+- README.md - Full documentation
+- QUICKSTART.md - Quick setup guide
+- TESTING.md - Testing examples
+- API_EXAMPLES.md - API usage examples
+
+================================================================================
+PROJECT STATUS: ✅ COMPLETE AND READY TO USE
+================================================================================

@@ -1,0 +1,30 @@
+# create directory and cd into it with npm init
+cd "C:\Users\ibrah\OneDrive\Desktop\Software Development\HNG\HNG 13\Backend" && mkdir task3-auth-api-key && cd task3-auth-api-key && npm init -y
+
+# Install nest dependencies
+npm install @nestjs/common @nestjs/core @nestjs/platform-express @nestjs/jwt @nestjs/passport @nestjs/typeorm @nestjs/config @nestjs/swagger passport passport-jwt passport-local bcrypt typeorm pg class-validator class-transformer reflect-metadata rxjs uuid
+
+# install dev dependencies
+npm install -D @nestjs/cli @nestjs/testing @types/node @types/express @types/passport-jwt @types/passport-local @types/bcrypt typescript ts-node nodemon
+
+# create project structure
+mkdir src && mkdir src\auth && mkdir src\api-keys && mkdir src\users && mkdir src\common && mkdir src\common\guards && mkdir src\common\decorators && mkdir src\database && mkdir src\database\entities
+
+# create more directories
+mkdir src\auth\dto && mkdir src\auth\strategies && mkdir src\api-keys\dto
+
+# Quick Start:
+# 1. Create database
+psql -U postgres -c "CREATE DATABASE auth_api_key_db;"
+
+# 2. Navigate to project
+cd "C:\Users\ibrah\OneDrive\Desktop\Software Development\HNG\HNG 13\Backend\task3-auth-api-key"
+
+# 3. Install dependencies
+npm install
+
+# 4. Start application
+npm run start:dev
+
+# 5. Open Swagger UI
+# http://localhost:3000/api/docs
