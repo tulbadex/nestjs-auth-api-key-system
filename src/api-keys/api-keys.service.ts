@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ApiKey } from '../database/entities/api-key.entity';
 import { CreateApiKeyDto } from './dto/create-api-key.dto';
-import { v4 as uuidv4 } from 'uuid';
 import * as crypto from 'crypto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class ApiKeysService {
@@ -23,9 +23,10 @@ export class ApiKeysService {
     }
 
     const key = this.generateApiKey();
+    const hashedKey = await bcrypt.hash(key, 10);
     
     const apiKey = this.apiKeysRepository.create({
-      key,
+      key: hashedKey,
       name: createApiKeyDto.name,
       userId,
       expiresAt: createApiKeyDto.expiresAt ? new Date(createApiKeyDto.expiresAt) : null,
@@ -35,7 +36,7 @@ export class ApiKeysService {
 
     return {
       id: apiKey.id,
-      key: apiKey.key,
+      key: key,
       name: apiKey.name,
       expiresAt: apiKey.expiresAt,
       createdAt: apiKey.createdAt,
@@ -68,14 +69,25 @@ export class ApiKeysService {
   }
 
   async validateApiKey(key: string): Promise<any> {
-    const apiKey = await this.apiKeysRepository.findOne({
-      where: { key, isActive: true },
+    const apiKeys = await this.apiKeysRepository.find({
+      where: { isActive: true },
       relations: ['user'],
     });
 
-    if (!apiKey) {
+    let validApiKey = null;
+    for (const apiKey of apiKeys) {
+      const isMatch = await bcrypt.compare(key, apiKey.key);
+      if (isMatch) {
+        validApiKey = apiKey;
+        break;
+      }
+    }
+
+    if (!validApiKey) {
       throw new UnauthorizedException('Invalid API key');
     }
+
+    const apiKey = validApiKey;
 
     if (apiKey.expiresAt && new Date() > apiKey.expiresAt) {
       throw new UnauthorizedException('API key expired');

@@ -2,10 +2,10 @@
 cd "C:\Users\ibrah\OneDrive\Desktop\Software Development\HNG\HNG 13\Backend" && mkdir task3-auth-api-key && cd task3-auth-api-key && npm init -y
 
 # Install nest dependencies
-npm install @nestjs/common @nestjs/core @nestjs/platform-express @nestjs/jwt @nestjs/passport @nestjs/typeorm @nestjs/config @nestjs/swagger passport passport-jwt passport-local bcrypt typeorm pg class-validator class-transformer reflect-metadata rxjs uuid
+npm install @nestjs/common @nestjs/core @nestjs/platform-express @nestjs/jwt @nestjs/typeorm @nestjs/config @nestjs/swagger bcrypt typeorm pg class-validator class-transformer reflect-metadata rxjs uuid
 
 # install dev dependencies
-npm install -D @nestjs/cli @nestjs/testing @types/node @types/express @types/passport-jwt @types/passport-local @types/bcrypt typescript ts-node nodemon
+npm install -D @nestjs/cli @nestjs/testing @types/node @types/express @types/bcrypt typescript ts-node nodemon
 
 # create project structure
 mkdir src && mkdir src\auth && mkdir src\api-keys && mkdir src\users && mkdir src\common && mkdir src\common\guards && mkdir src\common\decorators && mkdir src\database && mkdir src\database\entities
