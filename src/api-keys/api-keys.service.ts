@@ -104,6 +104,7 @@ export class ApiKeysService {
   }
 
   private generateApiKey(): string {
+    // get the sk attached to generated key
     const prefix = 'sk';
     const randomBytes = crypto.randomBytes(32).toString('hex');
     return `${prefix}_${randomBytes}`;
