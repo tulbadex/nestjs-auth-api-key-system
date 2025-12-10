@@ -13,11 +13,13 @@ export class ApiKeysService {
     private apiKeysRepository: Repository<ApiKey>,
   ) {}
 
+  // create a new API key
   async create(userId: string, createApiKeyDto: CreateApiKeyDto) {
     const existingKey = await this.apiKeysRepository.findOne({
       where: { userId, name: createApiKeyDto.name },
     });
 
+    // check for duplicate key names
     if (existingKey) {
       throw new ConflictException('API key with this name already exists');
     }
@@ -104,7 +106,6 @@ export class ApiKeysService {
   }
 
   private generateApiKey(): string {
-    // get the sk attached to generated key
     const prefix = 'sk';
     const randomBytes = crypto.randomBytes(32).toString('hex');
     return `${prefix}_${randomBytes}`;
