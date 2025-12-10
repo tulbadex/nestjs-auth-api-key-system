@@ -13,12 +13,14 @@ export class ApiKeysService {
     private apiKeysRepository: Repository<ApiKey>,
   ) {}
 
+  // create a new API key
   async create(userId: string, createApiKeyDto: CreateApiKeyDto) {
     const existingKey = await this.apiKeysRepository.findOne({
       where: { userId, name: createApiKeyDto.name },
     });
 
-    if (existingKey)
+    // check for duplicate key names
+    if (existingKey) {
       throw new ConflictException('API key with this name already exists');
     }
 
